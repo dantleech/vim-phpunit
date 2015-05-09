@@ -17,7 +17,11 @@ Configuration
 -------------
 
 The plugin will use Reflection and composer to determine where the files
-should be. By default it will prefix all test files with `Tests`.
+should be. By default it will prefix the sub-namespace with `Tests`.
+
+For example, if your file's namespace is `namespace MyProject\Bar\Doo` and
+composer autoload is configured with `{"MyProject\\": "foo/"}` then the test
+namespace will be `namespace MyProject\Tests\Bar\Doo`.
 
 This can be overridden as follows:
 
@@ -30,3 +34,8 @@ Mapping:
 ````vim
 nnoremap <silent><leader>pt :call GeneratePhpunit()<CR>
 ````
+
+Notes
+-----
+
+- Currently only works with `psr-4`
