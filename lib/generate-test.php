@@ -16,12 +16,19 @@ function blowup($error)
 function get_base_path($namespace) {
     global $autoload;
     $basePrefix = null;
-    foreach ($autoload['psr-4'] as $prefix => $path) {
+    $basePath = null;
+    foreach ($autoload['psr-4'] as $prefix => $paths) {
         $prefix = rtrim($prefix, '\\');
-        if (0 === strpos($namespace, $prefix)) {
-            $basePrefix = $prefix;
-            $basePath = $path;
+        foreach ((array) $paths as $path) {
+            if (0 === strpos($namespace, $prefix)) {
+                $basePrefix = $prefix;
+                $basePath = $path;
+            }
         }
+    }
+
+    if (!$basePrefix) {
+        blowup(sprintf('Could not determine path for namespace "%s"', $namespace));
     }
 
     return array($basePrefix, $basePath);
@@ -94,13 +101,14 @@ global $autoload;
 
 list($basePrefix, $basePath) = get_base_path($namespace);
 
-$subNamespace = strstr($namespace, strlen($basePrefix));
+$subNamespace = substr($namespace, strlen($basePrefix) + 1);
 $testNamespace = sprintf(
     '%s\\%s%s',
     $basePrefix,
     $testNamespace,
     $subNamespace ? '\\' . $subNamespace : ''
 );
+
 $testClassName = sprintf('%sTest', $reflection->getShortName());
 
 list($testBasePrefix, $testBasePath) = get_base_path($testNamespace);
