@@ -1,0 +1,3 @@
+## About
+
+[vim-phpuit] is a small plugin which automatically generates PHPUnit test cases for the current PHP file.

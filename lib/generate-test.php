@@ -1,5 +1,12 @@
 <?php
 
+// Generates a PHPUnit TestCase for the class at the given path
+// with the given namespace prefix.
+//
+// Uses composer.json and reflection to generate the test
+//
+// @author Daniel Leech <daniel@dantleech.com>sc
+
 function blowup($error)
 {
     echo $error;
@@ -39,7 +46,11 @@ $file = $argv[1];
 $composerFile = $cwd . '/composer.json';
 $autoloadFile = $cwd . '/vendor/autoload.php';
 
-$testNamespace = 'Tests\\Unit';
+if (isset($argv[2])) {
+    $testNamespace = $argv[2];
+} else {
+    $testNamespace = '';
+}
 
 if (!file_exists($composerFile)) {
     blowup(sprintf('Could not find composer file in current directory (%s)', $cwd));
@@ -109,7 +120,8 @@ $testFile = sprintf(
 );
 
 if (file_exists($testFile)) {
-    blowup(sprintf('File "%s" already exists!', $testFile));
+    echo $testFile;
+    exit(0);
 }
 
 $test = <<<EOT
