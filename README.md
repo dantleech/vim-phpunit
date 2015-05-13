@@ -49,10 +49,17 @@ overridden as follows:
 let g:phpunit_namespace_prefix="Tests\\Unit"
 ````
 
+You can also chane the path to phpunit:
+
+````vim
+let g:phpunitpath="/usr/local/bin/phpunit"
+````
+
 Mapping:
 
 ````vim
-nnoremap <silent><leader>pt :call GeneratePhpunit()<CR>
+nnoremap <silent><leader>pt :call PhpunitGenerate()<CR>
+nnoremap <silent><leader>pp :call PhpunitRun()<CR>
 ````
 
 Notes
