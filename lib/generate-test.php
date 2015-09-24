@@ -82,10 +82,17 @@ if (empty($diff)) {
     blowup(sprintf('Could not determine class name for "%s"', $file));
 }
 
-$className = reset($diff);
+$className = end($diff);
 
 $reflection = new \ReflectionClass($className);
 $namespace = $reflection->getNamespaceName();
+
+if ($reflection->isSubclassOf('\PHPUnit_Framework_TestCase')) {
+    blowup(sprintf(
+        'This class is already a test case: %s',
+        $reflection->getName()
+    ));
+}
 
 $autoload = $composer['autoload'];
 
