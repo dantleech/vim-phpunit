@@ -15,7 +15,7 @@ function! PhpunitGenerate()
     let testPath = system('php ' . s:genpath . ' ' . currentPath . ' ' . g:phpunit_namespace_prefix)
     
     if (v:shell_error == 0)
-        execute 'open ' . testPath
+        execute 'edit ' . testPath
     else 
         echoerr testPath
     endif
